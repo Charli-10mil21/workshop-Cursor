@@ -547,12 +547,40 @@ export default function Workshop() {
                 <div className="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center">
                   <Code className="w-5 h-5 text-accent" />
                 </div>
-                <h3 className="text-lg font-bold">Práctica 1: Desplegar Proyecto Semilla</h3>
+                <h3 className="text-lg font-bold">Práctica 1: Creación de cuenta en GitHub, e instalación de Git</h3>
               </div>
-              <div className="bg-background rounded-lg p-4 border border-border min-h-24 flex items-center justify-center">
-                <p className="text-muted-foreground italic text-sm">
-                  [Espacio para comandos de despliegue]
-                </p>
+              <p className="text-muted-foreground text-sm mb-3">Sigue estos pasos en orden:</p>
+              <div className="bg-background rounded-lg p-4 border border-border space-y-3">
+                <p className="text-sm font-medium text-foreground">Paso 1 — Crear cuenta en GitHub</p>
+                <a
+                  href="https://github.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Sitio oficial de GitHub para crear cuenta o iniciar sesión"
+                  className="block text-sm text-accent hover:underline font-medium"
+                >
+                  → GitHub — Crear cuenta o iniciar sesión
+                </a>
+                <p className="text-sm font-medium text-foreground mt-4">Paso 2 — Instalar Git en Windows</p>
+                <a
+                  href="https://git-scm.com/install/windows"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Descargar e instalar Git para Windows (sitio oficial)"
+                  className="block text-sm text-accent hover:underline font-medium"
+                >
+                  → Git para Windows — Descargar instalador oficial
+                </a>
+                <p className="text-sm font-medium text-foreground mt-4">Paso 3 — Conectar Cursor al MCP de GitHub</p>
+                <a
+                  href="https://github.com/github/github-mcp-server/blob/main/docs/installation-guides/install-cursor.md"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Guía: Instalar el servidor MCP de GitHub en Cursor"
+                  className="block text-sm text-accent hover:underline font-medium"
+                >
+                  → Instalar MCP de GitHub en Cursor — Guía de instalación
+                </a>
               </div>
             </div>
 
@@ -562,13 +590,57 @@ export default function Workshop() {
                 <div className="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center">
                   <Code className="w-5 h-5 text-accent" />
                 </div>
-                <h3 className="text-lg font-bold">Práctica 2: Conectar Cursor a MCPs</h3>
+                <h3 className="text-lg font-bold">Práctica 2: Crear cuenta en Vercel</h3>
               </div>
-              <p className="text-muted-foreground mb-4 text-sm">GitHub, Vercel, Supabase</p>
-              <div className="bg-background rounded-lg p-6 border border-border min-h-32 flex items-center justify-center">
-                <p className="text-muted-foreground italic">
-                  [Espacio para configuración de MCPs]
-                </p>
+              <p className="text-muted-foreground text-sm mb-3">Regístrate o inicia sesión para desplegar tu proyecto:</p>
+              <div className="bg-background rounded-lg p-4 border border-border space-y-3">
+                <a
+                  href="https://vercel.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-sm text-accent hover:underline font-medium"
+                >
+                  → Ir a Vercel (crear cuenta o iniciar sesión)
+                </a>
+                <a
+                  href="https://vercel.com/docs/agent-resources/vercel-mcp#cursor"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-sm text-accent hover:underline font-medium"
+                >
+                  → Documentación: Vercel MCP con Cursor
+                </a>
+              </div>
+            </div>
+
+            {/* Práctica 3 */}
+            <div className="bg-gradient-to-br from-muted to-card rounded-xl p-6 border border-border animate-slide-in-left">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center">
+                  <Code className="w-5 h-5 text-accent" />
+                </div>
+                <h3 className="text-lg font-bold">Práctica 3: Crear cuenta en Supabase</h3>
+              </div>
+              <p className="text-muted-foreground text-sm mb-3">Regístrate y conecta Cursor al MCP de Supabase:</p>
+              <div className="bg-background rounded-lg p-4 border border-border space-y-3">
+                <a
+                  href="https://supabase.com/dashboard/sign-in?returnTo=%2Forganizations"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Iniciar sesión o registrarse en Supabase"
+                  className="block text-sm text-accent hover:underline font-medium"
+                >
+                  → Supabase — Crear cuenta o iniciar sesión
+                </a>
+                <a
+                  href="https://supabase.com/docs/guides/getting-started/mcp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Guía: Conectar tus herramientas de IA a Supabase con MCP"
+                  className="block text-sm text-accent hover:underline font-medium"
+                >
+                  → Model Context Protocol (MCP) — Documentación Supabase
+                </a>
               </div>
             </div>
 
@@ -680,22 +752,63 @@ export default function Workshop() {
               )}
             </div>
 
-            {/* Proteger API Keys */}
-            <div className="bg-gradient-to-br from-red-950 to-card rounded-xl p-10 border border-red-900/30">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-red-900/30 rounded-lg flex items-center justify-center">
-                  <span className="text-lg font-bold text-red-500">🔐</span>
+            {/* Sigamos aprendiendo */}
+            <div className="bg-gradient-to-br from-muted to-card rounded-xl p-6 border border-border">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center">
+                  <Code className="w-5 h-5 text-accent" />
                 </div>
-                <h3 className="text-2xl font-bold">⚠️ Proteger API Keys: Tus Credenciales</h3>
+                <h3 className="text-2xl font-bold">Sigamos aprendiendo</h3>
               </div>
-              <div className="bg-background rounded-lg p-6 border border-red-900/30">
-                <p className="text-muted-foreground mb-4">
-                  Nunca compartas tus credenciales. Utiliza variables de entorno.
-                </p>
-                <div className="bg-red-900/20 rounded p-4 border border-red-900/30 min-h-24 flex items-center justify-center">
-                  <p className="text-muted-foreground italic">
-                    [Espacio para advertencias y mejores prácticas]
-                  </p>
+              <p className="text-muted-foreground text-sm mb-4">Videos y documentación para seguir profundizando:</p>
+              <div className="bg-background rounded-lg p-4 border border-border space-y-4">
+                <div>
+                  <p className="text-sm font-medium text-foreground mb-1">Video tutorial — YouTube</p>
+                  <a
+                    href="https://youtu.be/wnHczxwukYY?si=JwpIGevdVURD5trp"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Abrir video en YouTube"
+                    className="block text-sm text-accent hover:underline font-medium"
+                  >
+                    → Ver video
+                  </a>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-foreground mb-1">Video tutorial — YouTube</p>
+                  <a
+                    href="https://youtu.be/gpWB9N39HEM?si=57eO1cXqE_KkEjwk"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Abrir video en YouTube"
+                    className="block text-sm text-accent hover:underline font-medium"
+                  >
+                    → Ver video
+                  </a>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-foreground mb-1">Video tutorial — YouTube</p>
+                  <a
+                    href="https://youtu.be/CcKeshV-910?si=COV-b4AQp0IEonAA"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Abrir video en YouTube"
+                    className="block text-sm text-accent hover:underline font-medium"
+                  >
+                    → Ver video
+                  </a>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-foreground mb-1">eBook — 200 Prompts para Programadores Efectivos</p>
+                  <a
+                    href="https://es.scribd.com/document/919186268/eBook-200-Prompts-Mdev1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="eBook: 200 Prompts para Programadores Efectivos (Scribd)"
+                    className="block text-sm text-accent hover:underline font-medium"
+                  >
+                    → Ver documento en Scribd
+                  </a>
                 </div>
               </div>
             </div>
