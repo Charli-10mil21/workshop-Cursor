@@ -1,7 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 import { ChefHat, BookOpen, Zap, Database, Brain, Code } from 'lucide-react';
 
 const sections = [
@@ -16,6 +19,46 @@ const sections = [
 
 export default function Workshop() {
   const [activeSection, setActiveSection] = useState('inicio');
+  const [exampleTitle, setExampleTitle] = useState('');
+  const [exampleDescription, setExampleDescription] = useState('');
+  const [exampleImageName, setExampleImageName] = useState('');
+  const [isSavingExample, setIsSavingExample] = useState(false);
+  const [exampleMessage, setExampleMessage] = useState<string | null>(null);
+
+  const handleExampleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSavingExample(true);
+    setExampleMessage(null);
+
+    const formData = new FormData();
+    formData.append('title', exampleTitle);
+    formData.append('description', exampleDescription);
+    if (exampleImageName) {
+      formData.append('image', exampleImageName);
+    }
+
+    fetch('/api/ejemplos', {
+      method: 'POST',
+      body: formData,
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          const data = await response.json().catch(() => ({}));
+          throw new Error(data.error || 'No se pudo guardar el ejemplo.');
+        }
+        setExampleMessage('Ejemplo guardado correctamente en Supabase.');
+        setExampleTitle('');
+        setExampleDescription('');
+        setExampleImageName('');
+      })
+      .catch((error) => {
+        console.error(error);
+        setExampleMessage('Hubo un problema al guardar el ejemplo.');
+      })
+      .finally(() => {
+        setIsSavingExample(false);
+      });
+  };
 
   const scrollToSection = (section: string) => {
     setActiveSection(section);
@@ -489,6 +532,73 @@ export default function Workshop() {
                   [Espacio para configuración de MCPs]
                 </p>
               </div>
+            </div>
+
+            {/* Formulario: nuevo ejemplo práctico */}
+            <div className="bg-gradient-to-br from-muted to-card rounded-xl p-6 border border-border">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center">
+                  <Code className="w-5 h-5 text-accent" />
+                </div>
+                <h3 className="text-lg font-bold">Añadir Ejemplo Práctico</h3>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                Completa el formulario para definir un nuevo ejemplo práctico de despliegue que se guardará en Supabase.
+              </p>
+              <form onSubmit={handleExampleSubmit} className="space-y-4">
+                <div className="space-y-1 text-left">
+                  <Label htmlFor="example-title">Título</Label>
+                  <Input
+                    id="example-title"
+                    value={exampleTitle}
+                    onChange={(e) => setExampleTitle(e.target.value)}
+                    placeholder="Ej. Despliegue automático a producción"
+                    required
+                  />
+                </div>
+                <div className="space-y-1 text-left">
+                  <Label htmlFor="example-description">Descripción</Label>
+                  <Textarea
+                    id="example-description"
+                    value={exampleDescription}
+                    onChange={(e) => setExampleDescription(e.target.value)}
+                    placeholder="Describe brevemente qué hace este ejemplo de despliegue..."
+                    rows={4}
+                    required
+                  />
+                </div>
+                <div className="space-y-1 text-left">
+                  <Label htmlFor="example-image">Imagen del ejemplo</Label>
+                  <Input
+                    id="example-image"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      setExampleImageName(file ? file.name : '');
+                    }}
+                  />
+                  {exampleImageName && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Imagen seleccionada: <span className="font-medium">{exampleImageName}</span>
+                    </p>
+                  )}
+                </div>
+                {exampleMessage && (
+                  <p className="text-xs text-muted-foreground text-left">
+                    {exampleMessage}
+                  </p>
+                )}
+                <div className="flex justify-end">
+                  <Button
+                    type="submit"
+                    className="bg-accent hover:bg-orange-600 text-accent-foreground"
+                    disabled={isSavingExample}
+                  >
+                    {isSavingExample ? 'Guardando...' : 'Guardar ejemplo'}
+                  </Button>
+                </div>
+              </form>
             </div>
 
             {/* Proteger API Keys */}
