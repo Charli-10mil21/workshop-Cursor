@@ -1,6 +1,25 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
 
+export async function GET() {
+  try {
+    const { data, error } = await supabase
+      .from('workshop.ejemplos')
+      .select('id, title, description, image, created_at')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error obteniendo ejemplos:', error);
+      return NextResponse.json({ error: 'No se pudieron obtener los ejemplos.' }, { status: 500 });
+    }
+
+    return NextResponse.json({ ejemplos: data ?? [] });
+  } catch (error) {
+    console.error('Error en GET /api/ejemplos:', error);
+    return NextResponse.json({ error: 'Error interno.' }, { status: 500 });
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();

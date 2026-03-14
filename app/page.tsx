@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -17,6 +17,14 @@ const sections = [
   'ejemplos'
 ];
 
+type Ejemplo = {
+  id: string;
+  title: string;
+  description: string;
+  image: string | null;
+  created_at: string;
+};
+
 export default function Workshop() {
   const [activeSection, setActiveSection] = useState('inicio');
   const [exampleTitle, setExampleTitle] = useState('');
@@ -24,6 +32,35 @@ export default function Workshop() {
   const [exampleImageName, setExampleImageName] = useState('');
   const [isSavingExample, setIsSavingExample] = useState(false);
   const [exampleMessage, setExampleMessage] = useState<string | null>(null);
+  const [examples, setExamples] = useState<Ejemplo[]>([]);
+  const [isLoadingExamples, setIsLoadingExamples] = useState(true);
+  const [examplesError, setExamplesError] = useState<string | null>(null);
+
+  const loadExamples = () => {
+    setIsLoadingExamples(true);
+    setExamplesError(null);
+
+    fetch('/api/ejemplos')
+      .then(async (response) => {
+        if (!response.ok) {
+          const data = await response.json().catch(() => ({}));
+          throw new Error(data.error || 'No se pudieron cargar los ejemplos.');
+        }
+        const data = await response.json();
+        setExamples(data.ejemplos ?? []);
+      })
+      .catch((error) => {
+        console.error(error);
+        setExamplesError('Hubo un problema al cargar los ejemplos.');
+      })
+      .finally(() => {
+        setIsLoadingExamples(false);
+      });
+  };
+
+  useEffect(() => {
+    loadExamples();
+  }, []);
 
   const handleExampleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -50,6 +87,7 @@ export default function Workshop() {
         setExampleTitle('');
         setExampleDescription('');
         setExampleImageName('');
+        loadExamples();
       })
       .catch((error) => {
         console.error(error);
@@ -599,6 +637,47 @@ export default function Workshop() {
                   </Button>
                 </div>
               </form>
+            </div>
+
+            {/* Lista de ejemplos guardados */}
+            <div className="bg-gradient-to-br from-muted to-card rounded-xl p-6 border border-border">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center">
+                  <Code className="w-5 h-5 text-accent" />
+                </div>
+                <h3 className="text-lg font-bold">Ejemplos guardados</h3>
+              </div>
+              {isLoadingExamples && (
+                <p className="text-sm text-muted-foreground">Cargando ejemplos...</p>
+              )}
+              {examplesError && (
+                <p className="text-sm text-red-500">{examplesError}</p>
+              )}
+              {!isLoadingExamples && !examplesError && examples.length === 0 && (
+                <p className="text-sm text-muted-foreground">
+                  Todavía no hay ejemplos guardados. Crea el primero con el formulario de arriba.
+                </p>
+              )}
+              {!isLoadingExamples && !examplesError && examples.length > 0 && (
+                <div className="space-y-3">
+                  {examples.map((ejemplo) => (
+                    <div
+                      key={ejemplo.id}
+                      className="border border-border rounded-lg p-4 bg-background text-left"
+                    >
+                      <h4 className="font-semibold mb-1">{ejemplo.title}</h4>
+                      <p className="text-sm text-muted-foreground mb-2">
+                        {ejemplo.description}
+                      </p>
+                      {ejemplo.image && (
+                        <p className="text-xs text-muted-foreground">
+                          Imagen asociada: <span className="font-medium">{ejemplo.image}</span>
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Proteger API Keys */}
