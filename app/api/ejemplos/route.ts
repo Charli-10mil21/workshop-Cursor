@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabaseClient';
 export async function GET() {
   try {
     const { data, error } = await supabase
-      .from('workshop.ejemplos')
+      .from('ejemplos')
       .select('id, title, description, image, created_at')
       .order('created_at', { ascending: false });
 
@@ -39,7 +39,7 @@ export async function POST(request: Request) {
           : null;
 
     const { error } = await supabase
-      .from('workshop.ejemplos')
+      .from('ejemplos')
       .insert({
         title,
         description,
